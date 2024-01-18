@@ -74,7 +74,8 @@ def NuevoUsuario():
 	confirmacion = audio_to_text()
 	if confirmacion != "si":
 		preguntarDenuevo()
-	user = Usuario(nombre,id,telefono)
+	imagen = nombre+id
+	user = Usuario(nombre, id, telefono, imagen)
 
 def preguntarDenuevo(dato):
 	talk("Lo lamento, puedes repetirlo porfavor?")
@@ -92,4 +93,3 @@ def Consulta():
 		request = audio_to_text().lower()
 		if 'Iniciar' in request:
 			RegistroUsuario()
-
