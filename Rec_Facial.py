@@ -5,6 +5,7 @@ import face_recognition as fr
 from PIL import Image
 
 
+
 def analisisFacial():
     existe = False
     rutafotos = obtenerFotos()
@@ -17,12 +18,13 @@ def analisisFacial():
     show_results(results)
 
     for r in results:
-        if not r[0]:
-            ubicacion = ".\\fotos\\"
-            imagen_pil = Image.fromarray(frame)
-            imagen_pil.save(ubicacion + "prueba" + str(len(fotos)) + ".jpg")
-        else:
+        if r[0]:
             existe = True
+
+    if not existe:
+        ubicacion = ".\\fotos\\"
+        imagen_pil = Image.fromarray(frame)
+        imagen_pil.save(ubicacion + "prueba" + str(len(fotos)) + ".jpg")
     return existe
 
 

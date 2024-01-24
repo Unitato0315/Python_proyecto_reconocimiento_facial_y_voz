@@ -43,6 +43,7 @@ def talk(msg):
 	engine = pyttsx3.init()
 	engine.say(msg)
 	engine.runAndWait()
+	print(msg)
 
 
 def print_voices():
@@ -50,46 +51,53 @@ def print_voices():
 	for voz in engine.getProperty('voices'):
 		print(voz.id, voz)
 
+
 def RegistroUsuario():
 	talk("Acercate a la cámara para comenzar el registro")
-	confirmacion = analisisFacial();
-	if confirmacion:
+
+	if analisisFacial():
 		talk("Bienvenido, puedes avanzar al sistema principal")
 	else:
 		talk("No haz podido ser identificado, Quieres comenzar con el registro?")
+		nuevoUser = audio_to_text().lower()
+		if nuevoUser=="si":
+			NuevoUsuario()
 
 
 def NuevoUsuario():
 	talk("Vamos a comenzar por proporcionar tu información persona, ¿Cómo te llamas?")
 	nombre = audio_to_text().lower()
 	talk(f"Encantado de conocerte {nombre}, Ahora dime cual es identificacion")
-	id= audio_to_text().lower()
+	id = audio_to_text().lower()
 	talk(f"Tu identificacion es: {id}, es correcto?")
 	confirmacion = audio_to_text().lower()
-	if confirmacion != "si":
+	if confirmacion!="si":
 		preguntarDenuevo(id)
 	talk("Ya casi, dime tu numero telefonico")
 	telefono = audio_to_text().lower
 	talk(f"Tu telefono es: {telefono}, es correcto?")
 	confirmacion = audio_to_text()
-	if confirmacion != "si":
+	if confirmacion!="si":
 		preguntarDenuevo()
-	imagen = nombre+id
+	imagen = nombre + id
 	user = Usuario(nombre, id, telefono, imagen)
+	talk(f"Bienvenido {nombre} haz sido registrado con exito")
+
 
 def preguntarDenuevo(dato):
 	talk("Lo lamento, puedes repetirlo porfavor?")
 	id = audio_to_text().lower()
 	talk(f"Dijiste: {dato}, es correcto?")
 	confirmacion = audio_to_text().lower()
-	if confirmacion == "si":
+	if confirmacion=="si":
 		return True
 	else:
 		confirmacion(dato)
+
 
 def Consulta():
 	stop = False
 	while not stop:
 		request = audio_to_text().lower()
-		if 'Iniciar' in request:
+		if 'iniciar' in request:
 			RegistroUsuario()
