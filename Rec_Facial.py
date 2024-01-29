@@ -74,17 +74,16 @@ def show_results(results):
     for r in results:
         print(r)
 
-
 def obtenerCamara():
     captura = cv2.VideoCapture(0)
     print("Pulsa la letra l para hacer la captura")
     ok, frame = captura.read()
     captura.release()
     cv2.destroyAllWindows()
-
     if not ok:
         print('No se a podido recoger la imagen')
     else:
         cv2.imshow('frame', frame)
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        cv2.destroyAllWindows()
         return frame

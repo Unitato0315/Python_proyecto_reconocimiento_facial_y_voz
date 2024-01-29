@@ -7,6 +7,7 @@ class Usuario(object):
 
     def __dict__(self):
         usuarios = {
+
             "nombre": self.nombre,
             "id": self.id,
             "telefono": self.telefono,
@@ -16,5 +17,5 @@ class Usuario(object):
     def __str__(self):
         return "Nombre: " + self.nombre + "\nID: " + self.id + "\nTelefono: " + self.telefono
 
-    def from_dict(dictionary):
+    def  from_dict(dictionary):
         return Usuario(dictionary['nombre'], dictionary['id'], dictionary['telefono'], dictionary['imagen'])
