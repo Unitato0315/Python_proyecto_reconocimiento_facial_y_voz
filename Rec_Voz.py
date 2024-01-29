@@ -74,14 +74,14 @@ def NuevoUsuario(frame):
 	talk(f"Si Tu identificacion es: {id}, di confirmar?")
 	# confirmacion = audio_to_text().lower()
 	# print(confirmacion)
-	if  "confirmar" in audio_to_text().lower():
-		preguntarDenuevo(id)
+	if "confirmar" in audio_to_text().lower():
+		id = preguntarDenuevo(id)
 	talk("Ya casi, dime tu numero teléfonico")
 	telefono = audio_to_text().lower()
 	talk(f"Tu telefono es: {telefono}, si es correcto di confirmar?")
 	confirmacion = audio_to_text()
 	if "confirmar" in confirmacion:
-		preguntarDenuevo(telefono)
+		telefono = preguntarDenuevo(telefono)
 	imagen = nombre + id
 	ubicacion = ".\\fotos\\"
 	imagen_pil = Image.fromarray(frame)
