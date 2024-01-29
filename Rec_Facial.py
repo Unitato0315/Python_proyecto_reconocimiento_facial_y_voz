@@ -4,6 +4,7 @@ import cv2
 import face_recognition as fr
 from PIL import Image
 
+from Rec_Voz import talk
 
 
 def analisisFacial():
@@ -15,7 +16,6 @@ def analisisFacial():
     fotos.append(frame)
     cod_faces = get_cod_faces(fotos)
     results = compare_all_with_control(cod_faces)
-    show_results(results)
     i = 0
     for r in results:
         if r[0]:
@@ -70,18 +70,13 @@ def compare_all_with_control(cara_cod_list):
     return results
 
 
-def show_results(results):
-    for r in results:
-        print(r)
-
 def obtenerCamara():
     captura = cv2.VideoCapture(0)
-    print("Pulsa la letra l para hacer la captura")
     ok, frame = captura.read()
     captura.release()
     cv2.destroyAllWindows()
     if not ok:
-        print('No se a podido recoger la imagen')
+        talk('No se a podido recoger la imagen')
     else:
         cv2.imshow('frame', frame)
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
