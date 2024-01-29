@@ -1,9 +1,9 @@
-from datetime import datetime
+import datetime
 
 import pyttsx3
 import pywhatkit
 import speech_recognition as sr
-from wikipedia import wikipedia
+import wikipedia
 
 from Rec_Facial import analisisFacial
 from Usuario import Usuario
@@ -140,3 +140,4 @@ def Consulta():
 			search_wikipedia(search_query)
 		elif 'salir' in request:
 			stop = True
+

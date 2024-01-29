@@ -56,6 +56,7 @@ while True:
             listaUsuario.append(Rec_Voz.NuevoUsuario(existe[1]))
             save_json(listaUsuario, ubicacion)
             print("Usuario Registrado")
+            cv2.destroyAllWindows()
             Rec_Voz.Consulta()
     elif "salir" in start:
         exit()

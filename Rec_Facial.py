@@ -1,10 +1,11 @@
 import os
+from time import sleep
 
 import cv2
 import face_recognition as fr
 from PIL import Image
 
-from Rec_Voz import talk
+from Rec_Voz import *
 
 
 def analisisFacial():
@@ -74,11 +75,10 @@ def obtenerCamara():
     captura = cv2.VideoCapture(0)
     ok, frame = captura.read()
     captura.release()
-    cv2.destroyAllWindows()
     if not ok:
         talk('No se a podido recoger la imagen')
     else:
-        cv2.imshow('frame', frame)
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        cv2.destroyAllWindows()
+        cv2.imshow("frame", cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+
         return frame
