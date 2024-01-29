@@ -16,15 +16,14 @@ def analisisFacial():
     cod_faces = get_cod_faces(fotos)
     results = compare_all_with_control(cod_faces)
     show_results(results)
-
+    i = 0
     for r in results:
         if r[0]:
-            existe = True
+            existe = [True, rutafotos[i].split('.')[1].split('\\')[2]]
+        i = +1
 
     if not existe:
-        ubicacion = ".\\fotos\\"
-        imagen_pil = Image.fromarray(frame)
-        imagen_pil.save(ubicacion + "prueba" + str(len(fotos)) + ".jpg")
+        existe = [False, frame]
     return existe
 
 
@@ -46,8 +45,6 @@ def obtenerFotos():
     ubicacion = ".\\fotos\\"
     archivos = os.listdir(ubicacion)
     fotos = [os.path.join(ubicacion, archivo) for archivo in archivos]
-    for foto in fotos:
-        print(foto)
     return fotos
 
 
@@ -69,7 +66,6 @@ def compare_all_with_control(cara_cod_list):
     results = []
     for i, fc in enumerate(cara_cod_list):
         if i != len(cara_cod_list) - 1:
-            # Con fr.compare_faces([control_cod], cara_cod_comparar, 0.3) podemos modificar el límite por el que determinaría si es true
             results.append(fr.compare_faces([cara_cod_list[len(cara_cod_list) - 1]], fc))
     return results
 
@@ -82,12 +78,7 @@ def show_results(results):
 def obtenerCamara():
     captura = cv2.VideoCapture(0)
     print("Pulsa la letra l para hacer la captura")
-    while True:
-        ok, frame = captura.read()
-        cv2.imshow('frame', frame)
-        if cv2.waitKey(1) & 0xFF == ord('l'):
-            break
-
+    ok, frame = captura.read()
     captura.release()
     cv2.destroyAllWindows()
 
