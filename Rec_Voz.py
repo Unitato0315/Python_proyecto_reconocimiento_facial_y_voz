@@ -1,5 +1,9 @@
+import datetime
+
 import pyttsx3
+import pywhatkit
 import speech_recognition as sr
+import wikipedia
 
 from Rec_Facial import analisisFacial
 from Usuario import Usuario
@@ -75,7 +79,7 @@ def NuevoUsuario(frame):
 	# confirmacion = audio_to_text().lower()
 	# print(confirmacion)
 	if "confirmar" in audio_to_text().lower():
-		id = preguntarDenuevo(id)
+		preguntarDenuevo(id)
 	talk("Ya casi, dime tu numero teléfonico")
 	telefono = audio_to_text().lower()
 	talk(f"Tu telefono es: {telefono}, si es correcto di confirmar?")
@@ -102,9 +106,38 @@ def preguntarDenuevo(dato):
 		preguntarDenuevo(dato)
 
 
+def search_wikipedia(query):
+	wikipedia.set_lang("es")
+	try:
+		result = wikipedia.summary(query, sentences=1, auto_suggest=False, redirect=True)
+		talk(f"Según Wikipedia, {result}")
+	except wikipedia.exceptions.DisambiguationError as e:
+		talk("Hay varias opciones. ¿Puedes ser más específico?")
+	except wikipedia.exceptions.PageError as e:
+		talk("Lo siento, no encontré información al respecto.")
+
+
+def enviarWhatsapp():
+	talk('¿A que numero deseas enviarle el mensaje?')
+	numero = audio_to_text().lower()
+	contacto = "+34" + numero
+	talk("¿Qué mensaje deseas enviar?")
+	mensaje = audio_to_text().lower()
+	hour = datetime.datetime.now()
+	pywhatkit.sendwhatmsg(contacto.replace(" ", ""), mensaje, hour.hour, hour.minute + 1)
+	talk("Mensaje enviado con exito")
+
+
 def Consulta():
 	stop = False
 	while not stop:
 		request = audio_to_text().lower()
-		if 'iniciar' in request:
-			RegistroUsuario()
+		if 'enviar mensaje' in request:
+			enviarWhatsapp()
+		elif 'buscar en wikipedia' in request:
+			talk('¿Qué tema te gustaría buscar en Wikipedia?')
+			search_query = audio_to_text().lower()
+			search_wikipedia(search_query)
+		elif 'salir' in request:
+			stop = True
+

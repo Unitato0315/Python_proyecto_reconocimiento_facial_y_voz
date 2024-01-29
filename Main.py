@@ -37,21 +37,29 @@ if os.path.exists(ubicacion):
 else:
     listaUsuario = []
 
-start =Rec_Voz.audio_to_text().lower()
-if "iniciar" in start:
-    Rec_Voz.talk("Iniciando el reconocimiento facial")
-    existe = analisisFacial()
-    if existe[0]:
-        Rec_Voz.talk("Bienvenido")
-        for u in listaUsuario:
-            if u.imagen == existe[1]:
-                u.__str__()
-        print(existe[1])
-    else:
-        Rec_Voz.talk("No se ha encontrado en los registros")
-        listaUsuario.append(Rec_Voz.NuevoUsuario(existe[1]))
-        save_json(listaUsuario, ubicacion)
-        print("Usuario Registrado")
+
+while True:
+    Rec_Voz.talk("Para comenzar con el reconocimiento di: iniciar")
+    start =Rec_Voz.audio_to_text().lower()
+    if "iniciar" in start:
+        Rec_Voz.talk("Iniciando el reconocimiento facial")
+        existe = analisisFacial()
+        if existe[0]:
+            Rec_Voz.talk("Bienvenido")
+            for u in listaUsuario:
+                if u.imagen == existe[1]:
+                    u.__str__()
+                    Rec_Voz.talk("Bienvenido "+u.nombre)
+            Rec_Voz.Consulta()
+        else:
+            Rec_Voz.talk("No se ha encontrado en los registros")
+            listaUsuario.append(Rec_Voz.NuevoUsuario(existe[1]))
+            save_json(listaUsuario, ubicacion)
+            print("Usuario Registrado")
+            cv2.destroyAllWindows()
+            Rec_Voz.Consulta()
+    elif "salir" in start:
+        exit()
 # Rec_Voz.NuevoUsuario()
 # prueba = obtenerFotos()
 # obtenerCamara("prueba", len(prueba))
